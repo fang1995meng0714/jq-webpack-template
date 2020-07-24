@@ -20,6 +20,7 @@
     "html-webpack-plugin": "^4.3.0",
     "html-withimg-loader": "^0.1.16",
     "jquery": "^3.5.1",
+    "popper.js": "^1.16.1",
     "webpack": "^4.43.0",
     "webpack-bundle-analyzer": "^3.8.0",
     "webpack-cli": "^3.3.12"

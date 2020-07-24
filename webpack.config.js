@@ -5,7 +5,7 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const htmlConfig = require("./html.config");
-
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 
 const jsEntrys = {};
 const htmlPlugins = [];
@@ -14,6 +14,7 @@ htmlConfig.HTMLDirs.forEach(item => {
     let htmlPlugin = new HtmlWebpackPlugin({
         template: path.resolve(__dirname, `./src/html/${item.page}.html`),
         filename: `html/${item.page}.html`,
+        excludeChunks: "/node_modules/",
         chunks: [item.page, 'vendor'],
         minify: {
             collapseWhitespace: true,    // 压缩空白
@@ -42,7 +43,8 @@ module.exports = {
             $: 'jquery',
             jQuery: 'jquery',
         }),
-        new webpack.HotModuleReplacementPlugin()
+        new webpack.HotModuleReplacementPlugin(),
+        // new BundleAnalyzerPlugin({ analyzerPort: 8081 })
     ],
     module: {
         rules: [
@@ -113,5 +115,28 @@ module.exports = {
         inline: true,
         openPage: "html/index.html",
         hot:true,
+    },
+    optimization: {
+        splitChunks: {
+            chunks: "all",// all async initial
+            minSize: 30000,
+            minChunks: 1,
+            maxAsyncRequests: 5,
+            maxInitialRequests: 3,
+            // automaticNameDelimiter: "~",
+            name: true,
+            cacheGroups: {
+                vendors: {
+                    test: /[\\/]node_modules[\\/]/,
+                    priority: -10,
+                    filename: 'js/vendors.js'
+                },
+                default: {
+                    minChunks: 2,
+                    priority: -20,
+                    reuseExistingChunk: true
+                }
+            }
+        }
     }
 };
