@@ -12,14 +12,14 @@ htmlConfig.HTMLDirs.forEach(item => {
     let htmlPlugin = new HtmlWebpackPlugin({
         template: path.resolve(__dirname, `./src/html/${item.page}.html`),
         filename: `html/${item.page}.html`,
-        chunkFilename: "[id].js",
+        chunks: [item.page, 'vendor'],
         minify: {
             collapseWhitespace: true,    // 压缩空白
             removeAttributeQuotes: true  // 删除属性双引号
         }
     });
     htmlPlugins.push(htmlPlugin);
-    jsEntrys[item.page] = path.resolve(__dirname, "./src/js/main.js")
+    jsEntrys[item.page] = path.resolve(__dirname, `./src/js/${item.page}.js`)
 })
 
 module.exports = {
