@@ -41,24 +41,24 @@ module.exports = {
         rules: [
             {
                 test: /\.css$/,
+                exclude: /node_modules/,
+                include: path.join(__dirname, 'src'),
                 use: [{
                     loader: MiniCssExtractPlugin.loader,
-                }, 'style-loader', 'css-loader'] // 从右向左解析原则
+                }, 'style-loader', 'css-loader', 'postcss-loader'] // 从右向左解析原则
             },
             {
                 test: /\.less$/,
+                exclude: /node_modules/,
+                include: path.join(__dirname, 'src'),
                 use: [{
                     loader: MiniCssExtractPlugin.loader,
-                }, {
-                    loader: 'css-loader',
-                }, {
+                }, "css-loader", {
                     loader: 'postcss-loader',
                     options: {
                         plugins: [require('autoprefixer')]
                     }
-                }, {
-                    loader: 'less-loader',
-                }]
+                }, "less-loader"]
             },
             {
                 test: /\.js$/,
