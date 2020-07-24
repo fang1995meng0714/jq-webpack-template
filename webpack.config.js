@@ -6,6 +6,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const htmlConfig = require("./html.config");
 
+
 const jsEntrys = {};
 const htmlPlugins = [];
 
@@ -39,8 +40,9 @@ module.exports = {
         }),
         new webpack.ProvidePlugin({
             $: 'jquery',
-            jQuery: 'jquery'
-        })
+            jQuery: 'jquery',
+        }),
+        new webpack.HotModuleReplacementPlugin()
     ],
     module: {
         rules: [
