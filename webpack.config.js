@@ -1,32 +1,37 @@
 const path = require("path");
+const { resolve } = require("path");
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const { resolve } = require("path");
+const htmlConfig = require("./html.config");
+
+const jsEntrys = {};
+const htmlPlugins = [];
+
+htmlConfig.HTMLDirs.forEach(item => {
+    let htmlPlugin = new HtmlWebpackPlugin({
+        template: path.resolve(__dirname, `./src/html/${item.page}.html`),
+        filename: `html/${item.page}.html`,
+        chunkFilename: "[id].js",
+        minify: {
+            collapseWhitespace: true,    // 压缩空白
+            removeAttributeQuotes: true  // 删除属性双引号
+        }
+    });
+    htmlPlugins.push(htmlPlugin);
+    jsEntrys[item.page] = path.resolve(__dirname, "./src/js/main.js")
+})
 
 module.exports = {
     mode: "development",
-    entry: {
-        main: path.resolve(__dirname, "./src/js/main.js"),
-        header: path.resolve(__dirname, "./src/js/header.js"),
-    },
+    entry: jsEntrys,
     output: {
         filename: "js/[name].[hash].js",
         path: path.resolve(__dirname, "dist")
     },
     plugins: [
         new CleanWebpackPlugin(),
-        new HtmlWebpackPlugin({
-            template: path.resolve(__dirname, "./src/html/index.html"),
-            filename: "html/index.html",
-            chunkFilename: "[id].js",
-        }),
-        new HtmlWebpackPlugin({
-            template: path.resolve(__dirname, "./src/html/header.html"),
-            filename: "html/header.html",
-            chunkFilename: "[id].js",
-        }),
-
+        ...htmlPlugins,
         new MiniCssExtractPlugin({
             filename: "css/[name].[hash].css",
             chunkFilename: "[id].css",
@@ -92,4 +97,4 @@ module.exports = {
         inline: true,
         openPage: "html/index.html"
     }
-}
+};
