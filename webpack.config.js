@@ -123,13 +123,13 @@ module.exports = {
             minChunks: 1,
             maxAsyncRequests: 5,
             maxInitialRequests: 3,
-            // automaticNameDelimiter: "~",
+            automaticNameDelimiter: "~",
             name: true,
             cacheGroups: {
                 vendors: {
                     test: /[\\/]node_modules[\\/]/,
                     priority: -10,
-                    filename: 'js/vendors.js'
+                    filename: 'js/[name].js'
                 },
                 default: {
                     minChunks: 2,
