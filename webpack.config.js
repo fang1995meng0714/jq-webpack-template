@@ -45,7 +45,15 @@ module.exports = {
                 include: path.join(__dirname, 'src'),
                 use: [{
                     loader: MiniCssExtractPlugin.loader,
-                }, 'style-loader', 'css-loader', 'postcss-loader'] // 从右向左解析原则
+                }, 'style-loader', 'css-loader', {
+                    loader: 'postcss-loader',
+                    options: {
+                      ident: 'postcss',
+                      plugins: [
+                        require('autoprefixer')({ overrideBrowserslist: ['last 10 Chrome versions', 'last 5 Firefox versions', 'Safari >= 6', 'ie> 8'] })
+                      ]
+                    }
+                  }] // 从右向左解析原则
             },
             {
                 test: /\.less$/,
