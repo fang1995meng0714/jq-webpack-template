@@ -1,4 +1,5 @@
 const path = require("path");
+const webpack = require("webpack");
 const { resolve } = require("path");
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -35,6 +36,10 @@ module.exports = {
         new MiniCssExtractPlugin({
             filename: "css/[name].[hash].css",
             chunkFilename: "[id].css",
+        }),
+        new webpack.ProvidePlugin({
+            $: 'jquery',
+            jQuery: 'jquery'
         })
     ],
     module: {
@@ -99,10 +104,12 @@ module.exports = {
             },
         ]
     },
+    devtool: 'source-map',
     devServer: {
         contentBase: "./dist",
         port: "8080",
         inline: true,
-        openPage: "html/index.html"
+        openPage: "html/index.html",
+        hot:true,
     }
 };
