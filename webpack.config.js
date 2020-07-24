@@ -24,7 +24,7 @@ htmlConfig.HTMLDirs.forEach(item => {
 })
 
 module.exports = {
-    mode: "development",
+    mode: "production",
     entry: jsEntrys,
     output: {
         filename: "js/[name].[hash].js",
@@ -58,7 +58,7 @@ module.exports = {
                         require('autoprefixer')({ overrideBrowserslist: ['last 10 Chrome versions', 'last 5 Firefox versions', 'Safari >= 6', 'ie> 8'] })
                       ]
                     }
-                  }] // 从右向左解析原则
+                  }]
             },
             {
                 test: /\.less$/,
@@ -90,11 +90,11 @@ module.exports = {
                 use: ['html-withimg-loader']
             },
             {
-                test: /\.(png|svg|jpg|gif)$/,
+                test: /\.(gif|jpg|png|bmp|eot|woff|woff2|ttf|svg)$/,
                 use: [{
                     loader:'file-loader',
                     options: {
-                        outputPath: './images', //打包后的图片放到img文件夹下,
+                        outputPath: './images',
                         publicPath: '../images',
                         limit: 10000,
                         esModule: false,
